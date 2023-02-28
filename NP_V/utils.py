@@ -31,4 +31,40 @@ def get_etf_returns(etf_name, return_type='log', fieldname='Adj Close'):
 
 df_voo_return = get_etf_returns('VOO')
 df_iei_return = get_etf_returns('IEI')
+
+
+
+def get_total_returns_a(etf, return_type='log'):
+    df = get_etf_returns(etf, return_type, 'Adj Close')
+    return df
+
+
+def get_dividend_return(etf, return_type='log'):
+    # calc total simple return from Adj Close and Close
+    df_ret_from_adj = get_etf_returns(etf, 'simple', 'Adj Close')
+    df_ret_from_close = get_etf_returns(etf, 'simple', 'Close')
+
+    # simple div= ret Adj Close - ret Close simple
+    df_div = df_ret_from_adj-df_ret_from_close
+
+    # convert log if log
+    if return_type == 'log':
+        df_div = np.log(df_div+1)
+    return df_div
+
+def test_plot_divident_return():
+    df = get_dividend_return('VOO', 'simple')
+    df.plot()
+    plt.show()
+test_plot_divident_return()
+
+
+
+def get_price_return(etf, return_type='log'):
+
+    pass
+
+
+
+
 pass
