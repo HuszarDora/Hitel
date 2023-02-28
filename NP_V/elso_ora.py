@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import numpy as np
 
 df_iei = pd.read_csv('IEI.csv', index_col=0)
@@ -12,5 +13,6 @@ df_voo = df_voo.rename(columns={'Adj Close': 'Adj Close_voo'})
 df_merge = df_iei.join(df_voo, how='inner')
 
 
+print(1)
 
 pass
