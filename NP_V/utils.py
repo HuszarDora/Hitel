@@ -34,7 +34,7 @@ df_iei_return = get_etf_returns('IEI')
 
 
 
-def get_total_returns_a(etf, return_type='log'):
+def get_total_return(etf, return_type='log'):
     df = get_etf_returns(etf, return_type, 'Adj Close')
     return df
 
@@ -56,15 +56,45 @@ def test_plot_divident_return():
     df = get_dividend_return('VOO', 'simple')
     df.plot()
     plt.show()
-test_plot_divident_return()
+# test_plot_divident_return()
+
+def test_plot_total_return():
+    df = get_total_return('VOO', 'log')
+    df.plot()
+    plt.show()
+# test_plot_total_return()
 
 
 
 def get_price_return(etf, return_type='log'):
+    df_total = get_total_return(etf, 'simple')
+    df_div = get_dividend_return(etf, 'simple')
+    df_price = df_total - df_div
+    if return_type == 'log':
+        df_price = np.log(df_price+1)
+    return df_price
 
-    pass
+def get_portfolio_return(d_pf, return_type='log'):
+    # join returns
+    # drop na
+    # multiply by weights
+    # sum across etfs
+    # give back rsult
 
 
+    df_result = pd.DataFrame
+    for etf, weight in d_pf.items():
+        if df_result is None:
+            df_result = weight * get_total_return(etf, 'simple')
+        else:
+
+        df_result = df_result.add(df_result, df_ret)
+    return df_result
+
+def test_portfolio_return():
+    d_pf={'VOO':0.6, 'IEI':0.4}
+    get_portfolio_return(d_pf, 'simple')
+test_portfolio_return()
 
 
 pass
